@@ -7,6 +7,7 @@ const requiredVersion = require('../package.json').engines.node
 const appName = require('../package.json').name
 const slash = require('slash')
 const minimist = require('minimist')
+const path = require('path');
 
 // Setting edit distance to 60% of the input string's length
 didYouMean.threshold = 0.6
@@ -77,6 +78,10 @@ program
         console.log('params：', params);
         console.log('name：', name);
         console.log('options：', options);
+        console.log('cwd：', process.cwd());
+        console.log('__dirname：',__dirname);
+        console.log('./:',path.resolve('./'));
+        require('../testing/index')();
     })
 // output help information on unknown commands
 program
