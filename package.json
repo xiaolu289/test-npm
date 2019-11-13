@@ -25,6 +25,14 @@
   },
   "homepage": "https://github.com/xiaolu289/test-npm#readme",
   "dependencies": {
-    "commander": "^3.0.2"
+    "chalk": "^3.0.0",
+    "commander": "^3.0.2",
+    "didyoumean": "^1.2.1",
+    "minimist": "^1.2.0",
+    "semver": "^6.3.0",
+    "slash": "^3.0.0"
+  },
+  "engines": {
+    "node": ">=8.9"
   }
 }
