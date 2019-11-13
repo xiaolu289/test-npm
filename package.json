@@ -1,10 +1,10 @@
 {
   "name": "@xiaolu289/test-npm",
-  "version": "2.0.10",
+  "version": "2.0.11",
   "description": "this is a test",
   "main": "index.js",
   "bin": {
-    "test": "bin/test.js"
+    "test-npm": "bin/test.js"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
