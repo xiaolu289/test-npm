@@ -73,10 +73,11 @@ program
     .option('-d, --default', 'Skip prompts and use default preset')
     .action((name, cmd)=>{
         var options = cleanArgs(cmd);
-        console.log(name);
-        console.log(options);
+        var params = minimist(process.argv.slice(3));
+        console.log('params：', params);
+        console.log('name：', name);
+        console.log('options：', options);
     })
-// output help information on unknown commands
 // output help information on unknown commands
 program
   .arguments('<command>')
