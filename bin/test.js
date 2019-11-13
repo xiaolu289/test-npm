@@ -64,8 +64,8 @@ function suggestCommands (cmd) {
 }
 
 program
-    .version(require('../package').version, '-v', '--version')
-    .usage('<command> [options]');
+    .version(require('../package').version, '-v, --version')
+    .usage('<command> [options]')
 
 program
     .command('create <app-name>')
