@@ -81,7 +81,9 @@ program
         console.log('cwd：', process.cwd());
         console.log('__dirname：',__dirname);
         console.log('./:',path.resolve('./'));
-        require('../testing/index')();
+        var result = require('../testing/index');
+        console.log(result);
+        result.testing();
     })
 // output help information on unknown commands
 program

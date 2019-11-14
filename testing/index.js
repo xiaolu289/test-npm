@@ -1,7 +1,18 @@
-const path = require('path');
+/**
+ * @author oldj
+ * @blog https://oldj.net
+ */
 
-module.exports = function() {
-    console.log('testing-cwd：', process.cwd());
-    console.log('testing-__dirname：',__dirname);
-    console.log('testing-./:',path.resolve('./'));
-}
+'use strict'
+
+const path = require('path')
+
+require('fs').readdirSync(__dirname).map((file) => {
+  /* If its the current file ignore it */
+  if (file === 'index.js') return
+
+  /* Store module with its name (from filename) */
+  var a = path.join(__dirname, file);
+  console.log('a',a);
+  module.exports[path.basename(file, '.js')] = require(path.join(__dirname, file))
+})
