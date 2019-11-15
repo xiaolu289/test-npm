@@ -8,8 +8,8 @@
             "type": "node",
             "request": "launch",
             "name": "启动程序",
-            "program": "${workspaceFolder}\\bin\\test.js",
-            "args": ["create","aa","-p","bb"]
+            "program": "${workspaceFolder}\\bin\\sync-rc.js",
+            "args": []
         }
     ]
 }
