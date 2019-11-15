@@ -13,6 +13,5 @@ require('fs').readdirSync(__dirname).map((file) => {
 
   /* Store module with its name (from filename) */
   var a = path.join(__dirname, file);
-  console.log('a',a);
   module.exports[path.basename(file, '.js')] = require(path.join(__dirname, file))
 })
