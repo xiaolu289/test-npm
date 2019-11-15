@@ -1,13 +1,11 @@
 #!/usr/bin/env node
-var program = require('commander');
+const program = require('commander');
 const chalk = require('chalk')
 const didYouMean = require('didyoumean')
 const semver = require('semver')
 const requiredVersion = require('../package.json').engines.node
 const appName = require('../package.json').name
-const slash = require('slash')
-const minimist = require('minimist')
-const path = require('path');
+const buildCmd = require('../lib/buildCmd')
 
 // Setting edit distance to 60% of the input string's length
 didYouMean.threshold = 0.6
@@ -33,25 +31,6 @@ if (semver.satisfies(process.version, '9.x')) {
 }
 // 检查结束
 
-function camelize (str) {
-    return str.replace(/-(\w)/g, (_, c) => c ? c.toUpperCase() : '')
-}
-
-// commander passes the Command object itself as options,
-// extract only actual options into a fresh object.
-function cleanArgs (cmd) {
-    const args = {}
-    cmd.options.forEach(o => {
-        const key = camelize(o.long.replace(/^--/, ''))
-        // if an option is not present and Command has a method with the same name
-        // it should not be copied
-        if (typeof cmd[key] !== 'function' && typeof cmd[key] !== 'undefined') {
-        args[key] = cmd[key]
-        }
-    })
-    return args
-}
-
 function suggestCommands (cmd) {
     const availableCommands = program.commands.map(cmd => {
       return cmd._name
@@ -67,24 +46,6 @@ program
     .version(require('../package').version, '-v, --version')
     .usage('<command> [options]')
 
-program
-    .command('create <app-name>')
-    .description('create an app')
-    .option('-p, --preset <presetName>', 'Skip prompts and use saved or remote preset')
-    .option('-d, --default', 'Skip prompts and use default preset')
-    .action((name, cmd)=>{
-        var options = cleanArgs(cmd);
-        var params = minimist(process.argv.slice(3));
-        console.log('params：', params);
-        console.log('name：', name);
-        console.log('options：', options);
-        console.log('cwd：', process.cwd());
-        console.log('__dirname：',__dirname);
-        console.log('./:',path.resolve('./'));
-        var result = require('../testing/index');
-        console.log(result);
-        result.testing();
-    })
 // output help information on unknown commands
 program
   .arguments('<command>')
@@ -103,6 +64,8 @@ program.on('--help', () => {
 })
 
 program.commands.forEach(c => c.on('--help', () => console.log()))
+
+buildCmd(program);
 
 program.parse(process.argv);
 
