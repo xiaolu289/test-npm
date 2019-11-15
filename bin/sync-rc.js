@@ -6,6 +6,7 @@ const semver = require('semver')
 const requiredVersion = require('../package.json').engines.node
 const appName = require('../package.json').name
 const buildCmd = require('../lib/buildCmd')
+const path = require('path')
 
 // Setting edit distance to 60% of the input string's length
 didYouMean.threshold = 0.6
@@ -59,7 +60,7 @@ program
 // add some useful info on help
 program.on('--help', () => {
   console.log()
-  console.log(`  Run ${chalk.cyan(`sync-rc <command> --help`)} for detailed usage of given command.`)
+  console.log(`  Run ${chalk.cyan(`${path.basename(__filename, '.js')} <command> --help`)} for detailed usage of given command.`)
   console.log()
 })
 
