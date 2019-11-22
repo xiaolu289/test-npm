@@ -40,7 +40,7 @@ module.exports = function(program) {
         debug('pid：%s', child.pid)
         
         child.on('message', msg => {
-          console.log(msg);
+          debug('message：%o', msg);
           /* istanbul ignore else */
           if (msg && msg.action === 'ready') {
             child.unref();
