@@ -1,7 +1,9 @@
-const minimist = require('minimist')
+const minimist = require('minimist');
 const debug = require('debug')('sync-rc:server');
 const path = require('path');
 const spawn = require('child_process').spawn;
+const homedir = require('node-homedir');
+const getRotatelog = require('../lib/getRotatelog');
 
 module.exports = function(program) {
     program
@@ -9,28 +11,33 @@ module.exports = function(program) {
     .description('link to resource server')
     .option('-H, --host', 'The host of server')
     .option('-P, --port', 'The port of server')
-    .action(()=>{
-        const params = minimist(process.argv.slice(3));
-        const host = params.H;
-        const post = params.P;
+    .action(async ()=>{
+        const argv = minimist(process.argv.slice(3));
+        argv.host = argv.H;
+        argv.post = argv.P;
         const command = 'node';
         const serverBin = path.join(__dirname, '../lib/startCluster');
-        const master_stdout = path.join(process.cwd(),'/log/master_stdout.log');
-        const master_stderr = path.join(process.cwd(),'/log/master_stderr.log');
-        const clusterArgs = JSON.stringify({
-            host,
-            post
-        })
+        const HOME = homedir();
+        const logDir = path.join(HOME, 'sync-rc/logs');
+        argv.stdout = path.join(logDir,'master_stdout.log');
+        argv.stderr = path.join(logDir,'master_stderr.log');
+        const clusterArgs = JSON.stringify(argv)
         const execArgs = ['--inspect-brk=5050', serverBin, clusterArgs]
         const options = {
             stdio: 'inherit',
             detached: false,
         };
-        debug('host：%s', host)
-        debug('post：%s', post)
+        debug('host：%s', argv.host)
+        debug('post：%s', argv.post)
+        debug(`Save log file to ${logDir}`);
+        const [ stdout, stderr ] = await Promise.all([
+          getRotatelog(argv.stdout),
+          getRotatelog(argv.stderr)
+        ]);
+        options.stdio = [ 'ignore', stdout, stderr, 'ipc' ];
         options.detached = true;
         const child = spawn(command, execArgs, options)
-        console.log(child.pid);
+        debug('pid：%s', child.pid)
         
         child.on('message', msg => {
           console.log(msg);
