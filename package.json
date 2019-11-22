@@ -7,7 +7,7 @@
     "sync-rc": "bin/sync-rc.js"
   },
   "scripts": {
-    "test": "cross-env DEBUG=* node --inspect-brk bin/sync-rc.js server -H 127.0.0.1 -P 8080 --debug",
+    "debug": "cross-env DEBUG=* node --inspect-brk bin/sync-rc.js server -H 127.0.0.1 -P 8080 --debug",
     "start": "cross-env DEBUG=* node bin/sync-rc.js server -H 127.0.0.1 -P 8080"
   },
   "repository": {
