@@ -42,7 +42,6 @@ module.exports = function(program) {
         options.detached = true;
         debug('command：%s %s %s', command ,execArgs.join(' ') , JSON.stringify(options))
         const child = spawn(command, execArgs, options)
-        debug('pid：%s', child.pid)
         
         child.on('message', msg => {
           debug('message：%o', msg);
