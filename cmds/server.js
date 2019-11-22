@@ -40,7 +40,7 @@ module.exports = function(program) {
         ]);
         options.stdio = [ 'ignore', stdout, stderr, 'ipc' ];
         options.detached = true;
-        debug('command：%s %s %s', command ,execArgs.join(' ') , JSON.stringify(options))
+        debug("spawn('%s', '%s', '%s')", command ,execArgs.join(' ') , JSON.stringify(options))
         const child = spawn(command, execArgs, options)
         
         child.on('message', msg => {
