@@ -11,6 +11,7 @@ module.exports = function(program) {
     .description('link to resource server')
     .option('-H, --host', 'The host of server')
     .option('-P, --port', 'The port of server')
+    .option('-D, --debug', 'add --inspect-brk=5050 when spawn the process')
     .action(async ()=>{
         const argv = minimist(process.argv.slice(3));
         argv.host = argv.H;
@@ -22,7 +23,10 @@ module.exports = function(program) {
         argv.stdout = path.join(logDir,'master_stdout.log');
         argv.stderr = path.join(logDir,'master_stderr.log');
         const clusterArgs = JSON.stringify(argv)
-        const execArgs = ['--inspect-brk=5050', serverBin, clusterArgs]
+        const execArgs = [serverBin, clusterArgs]
+        if (argv.D || argv.debug) {
+          execArgs.unshift('--inspect-brk=5050');
+        }
         const options = {
             stdio: 'inherit',
             detached: false,
@@ -36,6 +40,7 @@ module.exports = function(program) {
         ]);
         options.stdio = [ 'ignore', stdout, stderr, 'ipc' ];
         options.detached = true;
+        debug('command：%s %s %s', command ,execArgs.join(' ') , JSON.stringify(options))
         const child = spawn(command, execArgs, options)
         debug('pid：%s', child.pid)
         
