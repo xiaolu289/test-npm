@@ -1,6 +1,7 @@
 const minimist = require('minimist')
-const net = require('net');
+const debug = require('debug')('sync-rc:server');
 const path = require('path');
+const spawn = require('child_process').spawn;
 
 module.exports = function(program) {
     program
@@ -9,26 +10,36 @@ module.exports = function(program) {
     .option('-H, --host', 'The host of server')
     .option('-P, --port', 'The port of server')
     .action(()=>{
-        var params = minimist(process.argv.slice(3));
-        var host = params.H;
-        var post = params.P;
-        console.log('host：', host);
-        console.log('post：', post);
-
-        const server = net.createServer((c) => {
-            // 'connection' 监听器。
-            console.log('客户端已连接');
-            c.on('end', () => {
-                console.log('客户端已断开连接');
-            });
-            c.write('你好\r\n');
-            c.pipe(c);
-        });
-        server.on('error', (err) => {
-            throw err;
-        });
-        server.listen(post, () => {
-            console.log('服务器已启动');
+        const params = minimist(process.argv.slice(3));
+        const host = params.H;
+        const post = params.P;
+        const command = 'node';
+        const serverBin = path.join(__dirname, '../lib/startCluster');
+        const master_stdout = path.join(process.cwd(),'/log/master_stdout.log');
+        const master_stderr = path.join(process.cwd(),'/log/master_stderr.log');
+        const clusterArgs = JSON.stringify({
+            host,
+            post
+        })
+        const execArgs = ['--inspect-brk=5050', serverBin, clusterArgs]
+        const options = {
+            stdio: 'inherit',
+            detached: false,
+        };
+        debug('host：%s', host)
+        debug('post：%s', post)
+        options.detached = true;
+        const child = spawn(command, execArgs, options)
+        console.log(child.pid);
+        
+        child.on('message', msg => {
+          console.log(msg);
+          /* istanbul ignore else */
+          if (msg && msg.action === 'ready') {
+            child.unref();
+            child.disconnect();
+            process.exit(0);
+          }
         });
     })
     return program
