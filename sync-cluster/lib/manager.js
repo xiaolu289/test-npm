@@ -1,7 +1,6 @@
 class Manager {
     constructor() {
-
     }
 }
 
-module.exports = Manager;
+module.exports = Manager

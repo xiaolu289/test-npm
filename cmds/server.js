@@ -11,11 +11,14 @@ module.exports = function(program) {
     .description('link to resource server')
     .option('-H, --host', 'The host of server')
     .option('-P, --port', 'The port of server')
+    .option('-d, --dir', 'The dir will sync to the client')
     .option('-D, --debug', 'add --inspect-brk=5050 when spawn the process')
     .action(async ()=>{
         const argv = minimist(process.argv.slice(3));
-        argv.host = argv.H;
-        argv.post = argv.P;
+        argv.host = argv.host || argv.H;
+        argv.post = argv.port || argv.P;
+        argv.dir = argv.dir || argv.d;
+        argv.debug = argv.debug || argv.D;
         const command = 'node';
         const serverBin = path.join(__dirname, '../lib/startCluster');
         const HOME = homedir();
@@ -24,7 +27,7 @@ module.exports = function(program) {
         argv.stderr = path.join(logDir,'master_stderr.log');
         const clusterArgs = JSON.stringify(argv)
         const execArgs = [serverBin, clusterArgs]
-        if (argv.D || argv.debug) {
+        if (argv.debug) {
           execArgs.unshift('--inspect-brk=5050');
         }
         const options = {

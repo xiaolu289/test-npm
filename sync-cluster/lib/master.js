@@ -1,6 +1,7 @@
 const EventEmitter = require('events');
-const Messager = ('./messager');
-const Manager = ('./manager')
+const ready = require('get-ready');
+const Messager = require('./messager.js');
+const Manager = require('./manager.js');
 
 class Master extends EventEmitter{
     constructor(options) {
@@ -8,14 +9,15 @@ class Master extends EventEmitter{
         this.options = options;
         this.messager = new Messager(this);
         this.manager = new Manager();
-
+        ready.mixin(this);
         console.log(this.options);
-    }
-    ready() {
-        this.emit('ready');
+        this.ready(function() {
+            console.log('master ready!');
+        })
+        this.start();
     }
     start() {
-        this.ready();
+        this.ready(true);
     }
 }
 
