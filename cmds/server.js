@@ -13,12 +13,14 @@ module.exports = function(program) {
     .option('-P, --port', 'The port of server')
     .option('-d, --dir', 'The dir will sync to the client')
     .option('-D, --debug', 'add --inspect-brk=5050 when spawn the process')
+    .option('-w, --worker', 'worker count')
     .action(async ()=>{
         const argv = minimist(process.argv.slice(3));
         argv.host = argv.host || argv.H;
         argv.post = argv.port || argv.P;
         argv.dir = argv.dir || argv.d;
         argv.debug = argv.debug || argv.D;
+        argv.worker = argv.worker || argv.w || require('os').cpus().length;
         const command = 'node';
         const serverBin = path.join(__dirname, '../lib/startCluster');
         const HOME = homedir();

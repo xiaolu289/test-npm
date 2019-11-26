@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "cfork": "^1.8.0",
     "get-ready": "^2.0.1"
   }
 }
