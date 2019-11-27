@@ -1,12 +1,12 @@
 const net = require('net');
-const server = net.createServer((c) => {
+const server = net.createServer((socket) => {
   // 'connection' 监听器。
   console.log('客户端已连接');
-  c.on('end', () => {
+  socket.on('end', () => {
     console.log('客户端已断开连接');
   });
-  c.write('你好\r\n');
-  c.pipe(c);
+  socket.write('你好\r\n');
+  socket.pipe(socket);
 });
 server.on('error', (err) => {
   throw err;

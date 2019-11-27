@@ -25,8 +25,8 @@ class Master extends EventEmitter{
         cfork({
             exec: this.getAppWorkerPath(),
             count: this.options.workers,
-            args: this.options,
-            refork: false,
+            args: [JSON.stringify(this.options)],
+            refork: true,
             windowsHide: process.platform === 'win32',
             silent: false,
         })
@@ -34,6 +34,8 @@ class Master extends EventEmitter{
             console.log(`工作进程 #${worker.id} 已断开连接`);
         })
         cluster.on('fork', (worker) => {
+            worker.disableRefork = true;
+            this.workerManager.setWorker(worker);
             worker.on('message', (message) => {
                 console.log(`master收到消息：${message}`);
             })
@@ -47,7 +49,10 @@ class Master extends EventEmitter{
             this.ready(true);
         })
         cluster.on('exit', (worker, code, signal) => {
-
+            // remove all listeners to avoid memory leak
+            worker.removeAllListeners();
+            this.workerManager.deleteWorker(worker.process.pid);
+            // send message to agent with alive workers
         })
     }
     getAppWorkerPath() {
