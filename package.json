@@ -26,6 +26,7 @@
   },
   "homepage": "https://github.com/xiaolu289/test-npm#readme",
   "dependencies": {
+    "@xiaolu289/sync-cluster": "^1.0.0",
     "chalk": "^3.0.0",
     "commander": "^3.0.2",
     "debug": "^4.1.1",
