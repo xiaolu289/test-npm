@@ -1,0 +1,43 @@
+{
+  "_from": "@xiaolu289/sync-cluster",
+  "_id": "@xiaolu289/sync-cluster@1.0.0",
+  "_inBundle": false,
+  "_integrity": "sha512-QoXB9/DTLG+LCbG10o7qQ0LCqJLPISu8/mmgXKn8c2eLCGnz9QJfIqrAJ8p/1px1LFQs4yJhYq1sPsNNy5NwfQ==",
+  "_location": "/@xiaolu289/sync-cluster",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "tag",
+    "registry": true,
+    "raw": "@xiaolu289/sync-cluster",
+    "name": "@xiaolu289/sync-cluster",
+    "escapedName": "@xiaolu289%2fsync-cluster",
+    "scope": "@xiaolu289",
+    "rawSpec": "",
+    "saveSpec": null,
+    "fetchSpec": "latest"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/@xiaolu289/sync-cluster/-/sync-cluster-1.0.0.tgz",
+  "_shasum": "e7804b5a9049da8d8466c2667c266fa67c3082e5",
+  "_spec": "@xiaolu289/sync-cluster",
+  "_where": "F:\\mygit\\test-npm",
+  "author": "",
+  "bundleDependencies": false,
+  "dependencies": {
+    "@xiaolu289/sync-rc-job": "^1.0.0",
+    "cfork": "^1.8.0",
+    "get-ready": "^2.0.1"
+  },
+  "deprecated": false,
+  "description": "start a cluster to sync frontent resource",
+  "license": "ISC",
+  "main": "index.js",
+  "name": "@xiaolu289/sync-cluster",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "version": "1.0.1"
+}
