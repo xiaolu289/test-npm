@@ -36,7 +36,7 @@
     "mz": "^2.7.0",
     "mz-modules": "^2.1.0",
     "node-homedir": "^1.1.1",
-    "semver": "^6.3.0",
+    "semver": "^7.5.2",
     "slash": "^3.0.0"
   },
   "engines": {
